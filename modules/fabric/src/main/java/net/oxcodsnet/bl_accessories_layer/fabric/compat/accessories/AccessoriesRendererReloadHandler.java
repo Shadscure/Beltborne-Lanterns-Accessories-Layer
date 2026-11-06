@@ -2,10 +2,14 @@ package net.oxcodsnet.bl_accessories_layer.fabric.compat.accessories;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.CommonLifecycleEvents;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
+import net.oxcodsnet.beltborne_lanterns.BLMod;
+import net.oxcodsnet.beltborne_lanterns.common.LampRegistry;
 import net.oxcodsnet.bl_accessories_layer.common.compat.accessories.AccessoriesRendererReloadScheduler;
 import com.mojang.logging.LogUtils;
 import org.slf4j.Logger;
@@ -29,6 +33,21 @@ public final class AccessoriesRendererReloadHandler {
                 }
 
                 AccessoriesRendererReloadScheduler.runIfReady();
+            });
+
+            ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
+                client.execute(() -> {
+                    LampRegistry.init();
+                    AccessoriesRendererReloadScheduler.requestReload();
+                    BLMod.LOGGER.info("Accessories renderer cache refreshed on world join (tags bound): {} lamps", LampRegistry.items().size());
+                });
+            });
+
+            CommonLifecycleEvents.TAGS_LOADED.register((registries, client) -> {
+                if (client) {
+                    LampRegistry.init();
+                    AccessoriesRendererReloadScheduler.requestReload();
+                }
             });
 
             ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
