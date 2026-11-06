@@ -103,13 +103,11 @@ public abstract class AbstractAccessoriesCompat<P, S> {
     protected final void handleClone(P oldPlayer, P newPlayer) {
         if (!hasMirroredLamp(oldPlayer)) return;
 
-        Optional<S> slotStack = getBeltStackImpl(newPlayer);
-        if (slotStack.isEmpty() || !isLamp(slotStack.get())) {
-            setMirroredLamp(oldPlayer, null);
-            return;
+        // Do not touch newPlayer's Accessories containers until PlayerRespawn (#14)
+        S stored = getMirroredStack(oldPlayer);
+        if (stored != null && !isEmpty(stored)) {
+            pendingRespawn.put(getPlayerId(newPlayer), copyStack(stored));
         }
-
-        pendingRespawn.put(getPlayerId(newPlayer), copyStack(slotStack.get()));
         setMirroredLamp(oldPlayer, null);
     }
 
@@ -124,6 +122,15 @@ public abstract class AbstractAccessoriesCompat<P, S> {
 
         setMirroredLamp(player, copyStack(currentBelt.get()));
         reevaluateAndBroadcast(player);
+    }
+
+    protected final void handleDisconnect(P player) {
+        if (player == null) return;
+        UUID playerId = getPlayerId(player);
+        if (playerId != null) {
+            pendingRespawn.remove(playerId);
+            syncing.remove(playerId);
+        }
     }
 
     public final boolean tryToggleLanternImpl(P player) {
