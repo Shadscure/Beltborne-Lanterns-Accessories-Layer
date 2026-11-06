@@ -6,7 +6,7 @@
   <a href="https://modrinth.com/project/beltborne-lanterns-accessories-layer">
     <img alt="Modrinth" height="48" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy-minimal/available/modrinth_vector.svg">
   </a>&nbsp;
-  <a href="https://www.curseforge.com/minecraft/mc-mods/bl-accessories-layer">
+  <a href="https://www.curseforge.com/minecraft/mc-mods/beltborne-lanterns-accessories-layer">
     <img alt="CurseForge" height="48" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy-minimal/available/curseforge_vector.svg">
   </a>&nbsp;
   <a href="https://discord.gg/9JRb3JMAD3">
@@ -21,12 +21,14 @@
   <a href="https://modrinth.com/project/beltborne-lanterns-accessories-layer">
     <img alt="Modrinth Downloads" src="https://img.shields.io/modrinth/dt/geZ7ilkE?style=flat&logo=modrinth">
   </a>
-  <a href="https://modrinth.com/project/beltborne-lanterns-accessories-layer">
+  <a href="https://www.curseforge.com/minecraft/mc-mods/beltborne-lanterns-accessories-layer">
     <img alt="CurseForge Downloads" src="https://img.shields.io/curseforge/dt/1342341?style=flat&logo=curseforge">
   </a>
 </p>
 
-
+<p align="center">
+ <img alt="Latest release" src="https://img.shields.io/github/v/release/Shadscure/Beltborne-Lanterns-Accessories-Layer?display_name=release&sort=semver&style=flat-square&color=00ae5d">
+</p>
 
 # Beltborne Lanterns: Accessories Layer
 
@@ -42,12 +44,39 @@ Equip your lantern in the Accessories **Belt** slot — it works just like the d
 
 ## 📷 Showcase
 
-![img.png](demo/img.png)
+![Showcase](https://raw.githubusercontent.com/Shadscure/Beltborne-Lanterns-Accessories-Layer/refs/heads/1.21/demo/img.png)
 
 ## ⚙️ Requirements
 
 * **[Beltborne Lanterns](https://modrinth.com/mod/beltborne-lanterns)** — the core mod
 * **[Accessories](https://modrinth.com/mod/accessories)** — the accessory API by WispForest
+
+<details>
+<summary><strong>🔧 For Modpack Makers</strong></summary>
+
+By default, lanterns can only be placed in the **Belt** slot. You can customize this by editing `config/bl_accessories_layer.json` (auto-generated on first launch):
+
+```json
+{
+  "allowed_slots": ["belt"]
+}
+```
+
+To allow additional slots (e.g. `charm`, `necklace`), add them to the list:
+
+```json
+{
+  "allowed_slots": ["belt", "charm", "necklace"]
+}
+```
+
+No datapacks or item tags are needed — the mod handles slot validation automatically.
+
+</details>
+
+## Credits
+
+- **[@DistantDig](https://github.com/DistantDig)** — idea for configurable slot support ([#7](https://github.com/Shadscure/Beltborne-Lanterns-Accessories-Layer/pull/7))
 
 ## 📜 License
 

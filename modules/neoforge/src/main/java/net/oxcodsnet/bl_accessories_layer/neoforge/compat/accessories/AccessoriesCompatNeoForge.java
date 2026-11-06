@@ -55,6 +55,7 @@ public final class AccessoriesCompatNeoForge extends AbstractAccessoriesCompat<S
     private void registerRespawnCallbacks() {
         NeoForge.EVENT_BUS.addListener(EventPriority.LOW, this::onClone);
         NeoForge.EVENT_BUS.addListener(this::onRespawn);
+        NeoForge.EVENT_BUS.addListener(this::onLogout);
     }
 
     private void onClone(PlayerEvent.Clone event) {
@@ -67,6 +68,11 @@ public final class AccessoriesCompatNeoForge extends AbstractAccessoriesCompat<S
     private void onRespawn(PlayerEvent.PlayerRespawnEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
         handleRespawn(player);
+    }
+
+    private void onLogout(PlayerEvent.PlayerLoggedOutEvent event) {
+        if (!(event.getEntity() instanceof ServerPlayer player)) return;
+        handleDisconnect(player);
     }
 
     @Override
