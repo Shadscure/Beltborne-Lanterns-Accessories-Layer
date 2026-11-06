@@ -11,7 +11,7 @@ import net.oxcodsnet.bl_accessories_layer.BL_Accessories_Layer;
 import net.oxcodsnet.bl_accessories_layer.common.compat.accessories.AccessoriesClientCompat;
 import net.oxcodsnet.bl_accessories_layer.neoforge.compat.accessories.AccessoriesRendererReloadHandler;
 
-@EventBusSubscriber(modid = BL_Accessories_Layer.MOD_ID, value = Dist.CLIENT)
+@EventBusSubscriber(modid = BL_Accessories_Layer.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
 public final class BL_Accessories_LayerNeoForgeClient {
     private BL_Accessories_LayerNeoForgeClient() {
     }

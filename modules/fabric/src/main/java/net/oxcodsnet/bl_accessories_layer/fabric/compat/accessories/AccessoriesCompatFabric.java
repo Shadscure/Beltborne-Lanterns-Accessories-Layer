@@ -5,6 +5,7 @@ import io.wispforest.accessories.api.events.AccessoryChangeCallback;
 import io.wispforest.accessories.api.events.ContainersChangeCallback;
 import io.wispforest.accessories.api.slot.SlotReference;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.oxcodsnet.bl_accessories_layer.common.config.SlotConfig;
@@ -82,6 +83,9 @@ public final class AccessoriesCompatFabric extends AbstractAccessoriesCompat<Ser
         ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> {
             if (alive) return;
             handleRespawn(newPlayer);
+        });
+        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
+            handleDisconnect(handler.getPlayer());
         });
     }
 
