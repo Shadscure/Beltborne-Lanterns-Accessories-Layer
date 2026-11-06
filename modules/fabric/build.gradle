@@ -13,7 +13,8 @@ repositories {
     maven { url = 'https://maven.shedaniel.me/' }
     maven { url = 'https://maven.terraformersmc.com/' }
     maven { url = 'https://maven.wispforest.io' }
-    maven { url = 'https://packex.shadscure.com/releases' }
+    mavenLocal()
+    maven { url = 'https://api.modrinth.com/maven' }
 }
 
 loom {
@@ -66,20 +67,30 @@ dependencies {
 
 processResources {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    def nf = rootProject.neoforge_version.tokenize('.')
+    def nfSeries = "${nf[0]}.${nf[1]}"
+    def nfNext   = "${nf[0]}.${(nf[1] as int) + 1}"
+    def blParts = rootProject.findProperty('beltborne_lanterns_version').toString().tokenize('.')
+    def blNextMinor = "${blParts[0]}.${(blParts[1] as int) + 1}.0"
     def props = [
-        version               : project.version,
-        mod_id                : rootProject.findProperty('mod_id'),
-        mod_name              : rootProject.findProperty('mod_name'),
-        mod_description       : rootProject.findProperty('mod_description'),
-        mod_authors           : rootProject.findProperty('mod_authors'),
-        mod_homepage          : rootProject.findProperty('mod_homepage'),
-        mod_sources           : rootProject.findProperty('mod_sources'),
-        mod_license           : rootProject.findProperty('mod_license'),
-        minecraft_version     : rootProject.findProperty('minecraft_version'),
-        fabric_loader_version : rootProject.findProperty('fabric_loader_version'),
-        beltborne_lanterns_version : rootProject.findProperty('beltborne_lanterns_version'),
-        modmenu_version       : rootProject.findProperty('modmenu_version'),
-        accessories_version   : rootProject.findProperty('accessories_version'),
+        version                        : project.version,
+        mod_id                         : rootProject.findProperty('mod_id'),
+        mod_name                       : rootProject.findProperty('mod_name'),
+        mod_description                : rootProject.findProperty('mod_description'),
+        mod_authors                    : rootProject.findProperty('mod_authors'),
+        mod_homepage                   : rootProject.findProperty('mod_homepage'),
+        mod_sources                    : rootProject.findProperty('mod_sources'),
+        mod_license                    : rootProject.findProperty('mod_license'),
+        minecraft_version              : rootProject.findProperty('minecraft_version'),
+        minecraft_range                : "${rootProject.minecraft_version}",
+        neoforge_range                 : "[${nfSeries},${nfNext})",
+        fabric_loader_version          : rootProject.findProperty('fabric_loader_version'),
+        beltborne_lanterns_version     : rootProject.findProperty('beltborne_lanterns_version'),
+        beltborne_lanterns_min_version : rootProject.findProperty('beltborne_lanterns_min_version'),
+        beltborne_lanterns_max_exclusive : blNextMinor,
+        modmenu_version                : rootProject.findProperty('modmenu_version'),
+        accessories_version            : rootProject.findProperty('accessories_version'),
+        accessories_min_version        : rootProject.findProperty('accessories_min_version'),
     ]
     inputs.properties(props)
     filesMatching('fabric.mod.json') { expand(props) }

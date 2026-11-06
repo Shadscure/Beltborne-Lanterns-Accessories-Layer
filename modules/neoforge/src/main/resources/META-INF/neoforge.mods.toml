@@ -19,27 +19,27 @@ logoFile = "assets/bl_accessories_layer/icon.png"
 [[dependencies.bl_accessories_layer]]
 modId = "neoforge"
 type = "required"
-versionRange = "[21.10,)"
+versionRange = "${neoforge_range}"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.bl_accessories_layer]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21.10,)"
+versionRange = "${minecraft_range}"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.bl_accessories_layer]]
 modId = "beltborne_lanterns"
 type = "required"
-versionRange = "[${beltborne_lanterns_version},)"
+versionRange = "[${beltborne_lanterns_min_version},${beltborne_lanterns_max_exclusive})"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.bl_accessories_layer]]
 modId = "accessories"
 type = "required"
-versionRange = "[1.4.3-beta,)"
+versionRange = "[${accessories_min_version},)"
 ordering = "NONE"
 side = "BOTH"
