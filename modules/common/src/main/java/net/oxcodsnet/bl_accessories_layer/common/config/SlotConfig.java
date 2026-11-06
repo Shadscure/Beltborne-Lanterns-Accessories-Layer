@@ -17,7 +17,7 @@ import java.util.List;
 
 public final class SlotConfig {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    private static final String CONFIG_FILE = "config/bl_accessories_layer.json";
+    private static final String CONFIG_FILE_NAME = "bl_accessories_layer.json";
     private static final List<String> DEFAULT_SLOTS = List.of("belt");
 
     private static volatile List<String> allowedSlots = DEFAULT_SLOTS;
@@ -25,7 +25,12 @@ public final class SlotConfig {
     private SlotConfig() {}
 
     public static void load() {
-        Path path = Path.of(CONFIG_FILE);
+        load(Path.of("config"));
+    }
+
+    public static void load(Path configDir) {
+        Path dir = configDir != null ? configDir : Path.of("config");
+        Path path = dir.resolve(CONFIG_FILE_NAME);
         try {
             if (!Files.exists(path)) {
                 Files.createDirectories(path.getParent());
@@ -68,8 +73,8 @@ public final class SlotConfig {
                 allowedSlots = List.copyOf(slots);
                 BLMod.LOGGER.info("Loaded allowed slots: {}", allowedSlots);
             }
-        } catch (IOException e) {
-            BLMod.LOGGER.error("Failed to load config, using defaults", e);
+        } catch (IOException | com.google.gson.JsonParseException | IllegalStateException | ClassCastException | UnsupportedOperationException e) {
+            BLMod.LOGGER.warn("Failed to load config, using defaults", e);
             allowedSlots = DEFAULT_SLOTS;
         }
     }
